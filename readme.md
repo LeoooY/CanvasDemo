@@ -5,4 +5,5 @@
 
 ## 思路
 - 创建一个全屏Canvas画布
-- 实现一个``` PointItem ``` 类,用于接收坐标,生成随机的粒子(随机位置alpha值)
+- 实现一个``` PointItem ``` 类,用于接收坐标,生成随机的粒子(随机位置、alpha值)
+- 使用requestAnimation函数递归重绘更新
