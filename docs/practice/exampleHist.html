@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas Simple Hist example</title>
+    <script>
+        function textCanvas() {
+            let canvas = document.getElementById('Module');
+            if (canvas.getContext) {
+                console.log('浏览器支持Canvas');
+                let ctx = canvas.getContext('2d');
+
+                ctx.fillStyle = 'rgb(200,0,0)';
+                ctx.fillRect(10, 10, 55, 50);
+                // fillRect参数 
+                //左上角坐标 x ,y  宽高 width height
+                
+                ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
+                ctx.fillRect(30, 30, 55, 50);
+
+            } else {
+                console.log('浏览器不支持Canvas');
+            }
+        }
+
+    </script>
+    <style type="text/css">
+        #Module {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body onload="textCanvas()">
+    <canvas id="Module" width="150" height="150"></canvas>
+
+
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas Module</title>
+    <script>
+        function textCanvas(){
+            let canvas=document.getElementById('Module');
+            if(canvas.getContext){
+                console.log('浏览器支持Canvas');
+                let ctx=canvas.getContext('2d');
+                ctx.beginPath();
+                ctx.arc(75,75,50,0,Math.PI*2,true); //脸
+                //移动到下一次起笔处
+                //对于arc函数需要移动到圆上起始位置
+                ctx.moveTo(60,65);
+                //ctx.moveTo(x=55+5=x_arc+r,y=65=y_arc)
+                ctx.arc(55,65,5,0,Math.PI*2,true); //左眼
+                ctx.moveTo(100,65);
+                ctx.arc(95,65,5,0,Math.PI*2,true); //右眼
+                ctx.moveTo(103,103);
+                ctx.arc(75,75,40,Math.PI*0.25,Math.PI*0.75,false); //口
+                ctx.stroke();
+            }else{
+                console.log('浏览器不支持Canvas');
+            }
+        }
+            
+    </script>
+    <style type="text/css">
+        #Module{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body onload="textCanvas()">
+    <canvas id="Module" width="150" height="150"></canvas>
+    
+    
+</body>
+</html>

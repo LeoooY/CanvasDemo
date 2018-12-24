@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas Module</title>
+    <script>
+        function textCanvas(){
+            let canvas=document.getElementById('Module');
+            if(canvas.getContext){
+                console.log('浏览器支持Canvas');
+                let ctx=canvas.getContext('2d');
+
+                ctx.fillStyle='rgb(200,0,0)';
+                ctx.fillRect(0,0,100,100);
+
+                ctx.fillStyle='rgb(0,0,200,0.5)';
+                ctx.strokeRect(25,25,150,150);
+
+                ctx.fillStyle='rgb(200,0,0)';
+                ctx.clearRect(25,25,10,10);
+
+            }else{
+                console.log('浏览器不支持Canvas');
+            }
+        }
+            
+    </script>
+    <style type="text/css">
+        #Module{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body onload="textCanvas()">
+    <canvas id="Module" width="150" height="150"></canvas>
+    
+    
+</body>
+</html>

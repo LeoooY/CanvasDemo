@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas Module</title>
+    <script>
+        function textCanvas(){
+            let canvas=document.getElementById('Module');
+            if(canvas.getContext){
+                console.log('浏览器支持Canvas');
+                let ctx=canvas.getContext('2d');
+
+                ctx.beginPath();
+                //beginPath后一般需要moveTo来指定起始点
+                //ctx.moveTo(x,y); 参数为坐标相对于canvas画布，单位为px
+                ctx.moveTo(10,10);
+                ctx.lineTo(120,120);
+                ctx.lineTo(130,0);
+                //ctx.closePath();
+                ctx.fillStyle='rgb(200,0,0)';
+                ctx.fill();
+
+            }else{
+                console.log('浏览器不支持Canvas');
+            }
+        }
+            
+    </script>
+    <style type="text/css">
+        #Module{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body onload="textCanvas()">
+    <canvas id="Module" width="150" height="150"></canvas>
+    
+    
+</body>
+</html>
