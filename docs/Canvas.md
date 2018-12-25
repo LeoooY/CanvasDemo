@@ -179,12 +179,130 @@ ctx.fillStyle = "rgba(255,0,0,0.5)";
 - 阴影 Shadow
   - shadowOddsetX = float
   - shadowOddsetY = float
+    - shadowOffsetX 和 shadowOffsetY 用来设定阴影在 X 和 Y 轴的延伸距离，它们是不受变换矩阵所影响的。负值表示阴影会往上或左延伸，正值则表示会往下或右延伸，它们默认都为 0。
   - shadowBlur = float
+    - shadowBlur 用于设定阴影的模糊程度，其数值并不跟像素数量挂钩，也不受变换矩阵的影响，默认为 0。
   - shadowColor = color
+    - shadowColor 是标准的 CSS 颜色值，用于设定阴影颜色效果，默认是全透明的黑色
 - Canvas 填充规则
+  - nonzero
+  - evenodd
 ### 绘制文本
 
 - fillText(text, x, y [, maxWidth])
   - 在指定的(x,y)位置填充指定的文本，绘制的最大宽度是可选的.
 - strokeText(text, x, y [, maxWidth])
   - 在指定的(x,y)位置绘制文本边框，绘制的最大宽度是可选的.
+  - 绘制空心文本，描边文本
+- 文本样式
+  - font = value
+    - 当前我们用来绘制文本的样式. 这个字符串使用和 CSS font 属性相同的语法. 默认的字体是 10px sans-serif。
+    - value 为字体
+  - textAlign = value
+    - 文本对齐选项.
+    -  可选的值包括：start, end, left, right or center. 默认值是 start。
+  - textBaseline = value
+    - 文字基线
+    - 基线对齐选项. 可选的值包括：top, hanging, middle, alphabetic, ideographic, bottom。默认值是 alphabetic。
+  - direction = value
+    - 文本方向。可能的值包括：ltr, rtl, inherit。默认值是 inherit。
+- 预测量文本宽度及其他属性
+    - measureText()
+    - 将返回一个 TextMetrics对象的宽度、所在像素，这些体现文本特性的属性
+- Geoko
+  - 早期版本特性
+  - 不再使用
+
+### 使用图像
+canvas更有意思的一项特性就是图像操作能力。可以用于动态的图像合成或者作为图形的背景，以及游戏界面（Sprites）等等。浏览器支持的任意格式的外部图片都可以使用，比如PNG、GIF或者JPEG。 你甚至可以将同一个页面中其他canvas元素生成的图片作为图片源。
+
+引入图像到canvas里需要以下两步基本操作：
+
+1.获得一个指向HTMLImageElement的对象或者另一个canvas元素的引用作为源，也可以通过提供一个URL的方式来使用图片（参见例子）
+2.使用drawImage()函数将图片绘制到画布上
+
+##### 获取图片源
+-获取图片源的API
+  - HTMLImageElement
+    - 这些图片是由Image()函数构造出来的，或者任何的`<img>`元素
+  - HTMLVideoElement
+    -  用一个HTML的 `<video>`元素作为你的图片源，可以从视频中抓取当前帧作为一个图像
+  - HTMLCanvasElement
+    - 可以使用另一个 `<canvas> `元素作为你的图片源。
+  - ImageBitmap
+    - 这是一个高性能的位图，可以低延迟地绘制，它可以从上述的所有源以及其它几种源中生成。
+这些源统一由 CanvasImageSource类型来引用。
+
+- 获取相同页面的图片（同源）
+  - document.images
+  - document.getElementsBytagName
+  - document.getElementById()
+- 获取跨域的图片
+  - 使用HTMLImageElement的crossOrigin属性，可以请求加载跨域的图片。
+  - 在 HTMLImageElement上使用crossOrigin属性，你可以请求加载其它域名上的图片。如果图片的服务器允许跨域访问这个图片，那么你可以使用这个图片而不污染canvas，否则，使用这个图片将会污染canvas
+- 使用其他canvas元素作为图片
+  - 和引用页面内的图片类似地，用 document.getElementsByTagName 或 document.getElementById 方法来获取其它 canvas 元素。但你引入的应该是已经准备好的 canvas。
+- 创建一个新的图片
+  - 或者我们可以用脚本创建一个新的 HTMLImageElement 对象。要实现这个方法，我们可以使用很方便的Image()构造函数。
+```
+var img = new Image();   // 创建一个<img>元素
+img.src = 'myImage.png'; // 设置图片源地址
+```
+
+当脚本执行后，图片开始装载。
+
+`若调用 drawImage 时，图片没装载完`，那什么都不会发生（在一些旧的浏览器中可能会抛出异常）。因此你应该用load事件来保证不会在加载完毕之前使用这个图片：
+
+```
+var img = new Image();   // 创建img元素
+img.onload = function(){
+  // 执行drawImage语句
+}
+img.src = 'myImage.png'; // 设置图片源地址
+```
+- 使用data:url方式嵌入图片
+  - 我们还可以通过 data:url 方式来引用图像。Data urls 允许用一串 Base64 编码的字符串的方式来定义一个图片。
+```
+img.src = 'data:image/gif;base64,R0lGODlhCwALAIAAAAAA3pn/ZiH5BAEAAAEALAAAAAALAAsAAAIUhA+hkcuO4lmNVindo7qyrIXiGBYAOw==';
+```
+其优点就是图片内容即时可用，无须再到服务器兜一圈。（还有一个优点是，可以将 CSS，JavaScript，HTML 和 图片全部封装在一起，迁移起来十分方便。）缺点就是图像没法缓存，图片大的话内嵌的 url 数据会相当的长
+- 使用视频帧
+  - 你还可以使用`<video> `中的视频帧（即便视频是不可见的）。例如，如果你有一个ID为“myvideo”的`<video> `元素，你可以这样做：
+
+##### 绘制图片
+获取了图片源，就可以用drawImage方法将它渲染到canvas里面。
+- drawImage(image,x,y) `基本绘制`
+  - 其中 image 是 image 或者 canvas 对象，x 和 y 是其在目标 canvas 里的起始坐标。
+  - 注意！SVG图像必须在 `<svg>` 根指定元素的宽度和高度。
+- drawImage(image, x, y, width, height) `缩放绘制`
+  - 这个方法多了2个参数：width 和 height，这两个参数用来控制 当向canvas画入时应该缩放的大小
+  - 图像缩放可能出现杂点或者模糊，特别时有文字时候最好不要进行缩放
+- drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) `切片Slicing`
+  - 第一个参数和其它的是相同的，都是一个图像或者另一个 canvas 的引用。其它8个参数最好是参照右边的图解，前4个是定义图像源的切片位置和大小，后4个则是定义切片的目标显示位置和大小。
+
+### 变形 Transformations
+###### 状态的保存和回滚
+  - save()
+    - 每次调用save()可以存档当前ctx的配置，比如style、颜色...ect
+  - restore()
+    - 调用restore()可以回滚到上一版本的ctx配置，以及`ctx画笔位置`
+##### 移动 Translating
+  - translate(x, y)
+    - translate 方法接受两个参数。x 是左右偏移量，y 是上下偏移量
+    - 在做变形之前`先保存状态`是一个良好的习惯。大多数情况下，调用 restore 方法比手动恢复原先的状态要简单得多。又，如果你是在一个循环中做位移但没有保存和恢复 canvas 的状态，很可能到最后会发现怎么有些东西不见了，那是因为它很可能已经超出 canvas 范围以外了。
+  - 
+##### 旋转 Roatating
+它用于以原点为中心旋转 canvas。
+- rotate(angle)
+  - 这个方法只接受一个参数：旋转的角度(angle)，它是顺时针方向的，以弧度为单位的值。
+
+
+##### 变形 Transforms
+  最后一个方法允许对变形矩阵直接修改。
+  - transform(m11, m12, m21, m22, dx, dy)
+    - 这个方法是将当前的变形矩阵乘上一个基于自身参数的矩阵，在这里我们用下面的矩阵：
+  - setTransform(m11, m12, m21, m22, dx, dy)
+    - 这个方法会将当前的变形矩阵重置为单位矩阵，然后用相同的参数调用 transform 方法。如果任意一个参数是无限大，那么变形矩阵也必须被标记为无限大，否则会抛出异常。从根本上来说，该方法是取消了当前变形,然后设置为指定的变形,一步完成。
+  - resetTransform()
+    - 重置当前变形为单位矩阵，它和调用以下语句是一样的：
+    - ctx.setTransform(1, 0, 0, 1, 0, 0);

@@ -10,4 +10,5 @@
 - 使用requestAnimation函数递归重绘更新
 
 ## 参考
+- [MDN-canvas](https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial)
 - 掘金小册Canvas《如何使用Canvas制作出炫酷的网页背景特效》
