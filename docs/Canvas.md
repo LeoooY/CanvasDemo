@@ -107,6 +107,8 @@ Example:绘制一个三角形
   - arcTo(x1, y1, x2, y2, radius)
     - 根据给定的控制点和半径画一段圆弧，再以直线连接两个控制点。
 - [贝塞尔曲线](https://github.com/hujiulong/blog/issues/1)
+  - https://beta.observablehq.com/@mbostock/de-casteljaus-algorithm
+  - https://github.com/hujiulong/blog/issues/1
   - 二次贝塞尔曲线及三次贝塞尔曲线
   - 二次及三次贝塞尔曲线都十分有用，一般用来绘制`复杂`有规律的图形。
   - 绘制复杂的曲线
@@ -306,3 +308,9 @@ img.src = 'data:image/gif;base64,R0lGODlhCwALAIAAAAAA3pn/ZiH5BAEAAAEALAAAAAALAAs
   - resetTransform()
     - 重置当前变形为单位矩阵，它和调用以下语句是一样的：
     - ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+
+### 组合-合成与剪裁
+  - 在之前的例子里面，我们总是将一个图形画在另一个之上，对于其他更多的情况，仅仅这样是远远不够的。比如，对合成的图形来说，绘制顺序会有限制。不过，我们可以利用 `globalCompositeOperation` 属性来改变这种状况。此外, `clip`属性允许我们隐藏不想看到的部分图形。
+  - 
+  - 

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas Module</title>
+    <script>
+        function textCanvas(){
+            let canvas=document.getElementById('Module');
+            if(canvas.getContext){
+                console.log('浏览器支持Canvas');
+                let ctx=canvas.getContext('2d');
+                ctx.beginPath();
+                ctx.moveTo(0,75);
+                ctx.quadraticCurveTo(25,0,75,75);
+                ctx.quadraticCurveTo(125,125,175,75);
+                ctx.quadraticCurveTo(225,15,300,75);
+                ctx.quadraticCurveTo(375,150,450,75);
+
+                let lineargradient= ctx.createLinearGradient(75,90,75,50);
+                
+                lineargradient.addColorStop(0,'blue');
+                lineargradient.addColorStop(0.499,'blue');
+                lineargradient.addColorStop(0.5,'yellow');
+                lineargradient.addColorStop(1,'yellow');
+                
+                ctx.lineWidth=3;
+                ctx.strokeStyle=lineargradient;
+                ctx.stroke();
+
+            }else{
+                console.log('浏览器不支持Canvas');
+            }
+        }
+            
+    </script>
+    <style type="text/css">
+        #Module{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body onload="textCanvas()">
+    <canvas id="Module" width="450" height="150"></canvas>
+    
+    
+</body>
+</html>
