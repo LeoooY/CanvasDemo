@@ -1,5 +1,5 @@
 使用js+Canvas实现一个星空的效果(随机粒子)  
-- [Preview](https://leoooy.github.io/CanvasDemo/)
+- [Preview](https://leoooy.github.io/LearnCanvas/)
 ## 相关
 - Canvas
 - ES6 class 私有有方法 symbol
